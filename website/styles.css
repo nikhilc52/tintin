@@ -1,0 +1,66 @@
+body{
+    background-color: #ffffff;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+*{
+    /* border: 1px solid red; */
+}
+
+@font-face {
+    font-family: tintin;
+    src: url(../images/Tintin\ Majuscules\ Bold.ttf);
+}
+
+.title{
+    padding-top: 50px;
+    margin: auto;
+    font-family: tintin;
+    font-weight: bold;
+    text-align: center;
+    max-width: 55vw;
+    font-size: 45px;
+}
+
+.author-line{
+    margin: auto;
+    padding-top: 70px;
+    padding-bottom: 70px;
+    text-align: center;
+    max-width: 55vw;
+    font-size: 20px;
+}
+
+.content{
+    margin: auto;
+    line-height: 35px;
+    text-align: left;
+    max-width: 600px;
+    font-size: 23px;
+}
+
+.image-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px;
+}
+
+.link {
+    color: black;
+    text-decoration: underline;
+    /* text-decoration-style: double; */
+    text-decoration-color: #6f208a;
+    text-decoration-thickness: 3px;
+    text-decoration-skip-ink: all;
+}
+
+a {
+    text-decoration: none;
+}
+
+.highlight {
+    background-image: url(../images/highlight.svg);
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+}
