@@ -6,26 +6,331 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Computer Vision in Tintin</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" href="../panel_obtainer/panels/13_tintin_and_the_seven_crystal_balls_page_03_panel_05.jpg">
+    <link rel="icon" type="image/png" href="../images/lotus.png">
 </head>
 
 <body>
     <div class="image-container"><a href="https://nikhilchinchalkar.com/" target="_blank"><img src="../images/lotus.png"
                 style="width: 90px; height: auto;"></a></div>
     <div class="title">Computer Vision with Tintin</div>
-    <div class="author-line">An Essay by <a class="link" href="https://nikhilchinchalkar.com/" target="_blank">Nikhil
-            Chinchalkar</a></div>
+    <div class="author-line">An Essay by <b><a class="link" href="https://nikhilchinchalkar.com/" target="_blank">Nikhil
+                Chinchalkar</a></b></div>
 
-    <div class="content"><span class="highlight">Why end might ask civil again spoil. She dinner she our horses depend.
-            Remember at children by
-            reserved to vicinity. In affronting unreserved</span> delightful simplicity ye. Law own advantage furniture
-        continual
-        sweetness bed agreeable perpetual. Oh song well four only head busy it. Afford son she had lively living. Tastes
-        lovers myself too formal season our valley boy. Lived it their their walls might to by young.
+    <div class="content"><span class="highlight">Tintin was a key part of my childhood</span>. I first discovered the
+        novels in 2017 at my uncle's
+        apartment in India, and I read through all the comics and watched the full TV series shortly thereafter.
     </div>
 
-    <div class="image-container"><img src="../images/[final]detailed_character.png" style="width: 55vw; height: auto;">
+    <div class="content">
+        Now, almost a full decade later, I come back to the series in this "blog" post (which is a first for me). The
+        conception of this project came from me thinking about a good way to apply the skills I learned from Daniel
+        Bourke's <a class="link" href="https://www.youtube.com/watch?v=V_xro1bcAuA" target="_blank">PyTorch for Deep
+            Learning & Machine Learning</a> course. For passion projects like that, I find that there
+        does need to be some <span class="highlight">genuine connection between the subject and yourself</span>,
+        otherwise it'll be far too boring.
+        After brainstorming for a bit, something related to Tintin seemed like a nice starting point for a project,
+        and
+        I searched for Tintin-based data analysis, to see if there was anyone doing what I was thinking about.
+        Lo-and-behold, a really well made <a class="link"
+            href="https://public.tableau.com/app/profile/rincon/viz/TintinintheDataWorld/EntryPage"
+            target="_blank">Tableau dashboard</a> contained analysis of pretty much everything I could
+        think
+        of relating to Tintin data.
+    </div>
+
+    <div class="image-container" style="width: 750px; height: auto; max-width: 100vw;">
+        <div class='tableauPlaceholder' id='viz1755631760107' style="position: relative;"><noscript><a href='#'><img
+                        alt=' '
+                        src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ti&#47;TintinintheDataWorld&#47;EntryPage&#47;1_rss.png'
+                        style='border: none' /></a></noscript><object class='tableauViz' style='display:none;'>
+                <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                <param name='embed_code_version' value='3' />
+                <param name='site_root' value='' />
+                <param name='name' value='TintinintheDataWorld&#47;EntryPage' />
+                <param name='tabs' value='yes' />
+                <param name='toolbar' value='yes' />
+                <param name='static_image'
+                    value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ti&#47;TintinintheDataWorld&#47;EntryPage&#47;1.png' />
+                <param name='animate_transition' value='yes' />
+                <param name='display_static_image' value='yes' />
+                <param name='display_spinner' value='yes' />
+                <param name='display_overlay' value='yes' />
+                <param name='display_count' value='yes' />
+                <param name='language' value='en-US' />
+            </object></div>
+        <script
+            type='text/javascript'>                    var divElement = document.getElementById('viz1755631760107'); var vizElement = divElement.getElementsByTagName('object')[0]; vizElement.style.width = '1300px'; vizElement.style.height = '950px'; var scriptElement = document.createElement('script'); scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js'; vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+    </div>
+
+    <div class="content">
+        While their insights are cool, they specifically mentioned that they got the data through manual collection,
+        which I thought was too time consuming for me to do, should I continue down that path. One of the chapters in
+        the course that I was watching was about computer vision, and how machine learning models can understand
+        patterns within pixels to identify classes of objects. A revelation: <span class="highlight">what if I used
+            computer vision to recreate
+            the same plots that were on the dashboard?</span> That's what this project is about. Using machine learning
+        to automate
+        something that was initially done manually: identifying characters across different panels, pages, and books.
+        I'll see where machine learning fails, see what it does well, and ultimately gain some insight on the comic
+        strips that made up my youth.
+    </div>
+    <div class="title">Getting the data</div>
+
+    <div class="content">
+        I sourced all of the Tintin books from online scans, mostly from archive.org. I excluded Tintin in the Land of
+        the Soviets since it had a very <a class="link"
+            href="https://cdn001.tintin.com/public/tintin/img/static/tintin-in-the-land-of-the-soviets/NB00_Soviets-en-p005.png"
+            target="_blank">art style</a>, Tintin in the Congo since its depictions are pretty <a class="link"
+            href="https://en.wikipedia.org/wiki/Tintin_in_the_Congo#Racism" target="_blank">racist</a>,
+        and Tintin in Alph-Art, since it was <a class="link" href="https://en.wikipedia.org/wiki/Tintin_and_Alph-Art"
+            target="_blank">unfinished</a>. To get the PDFs into a format that was compatible with computer
+        vision models, though, I had to split each of the PDFs into JPGs, which were named according to their page
+        number. I did that latter part through Adobe Acrobat.
+    </div>
+
+    <div class="image-container"><img src="../images/pages.png" style="width: 400px; height: auto;">
+    </div>
+    <div class="caption">Sample page files.</div>
+
+
+    <div class="content">
+        There's one more level of granularity beneath each page: <span class="highlight">the panels</span>. To my
+        knowledge, however, there wasn't a
+        clear way of splitting each page into individual panels from ordinary tools. It's not like the panels are placed
+        in the same location every time either, so you would have to identify where a panel was, and then cut it out.
+    </div>
+
+    <div class="image-container"><img src="../pages/09_tintin_and_the_crabs_with_the_golden_claws_page_49.jpg"
+            style="width: 250px; height: auto;">
+        <img src="../pages/09_tintin_and_the_crabs_with_the_golden_claws_page_23.jpg"
+            style="width: 250px; height: auto;">
+        <img src="../pages/13_tintin_and_the_seven_crystal_balls_page_50.jpg" style="width: 250px; height: auto;">
+    </div>
+    <div class="caption">Three different pages showing different panel arrangements.</div>
+
+    <div class="content">
+        It's here that I built my first model, to split each page into individual panel components. To do so, I watched
+        <a class="link" href="https://www.youtube.com/watch?v=r0RspiLG260" target="_blank">a YouTube tutorial</a>, which
+        listed out the process pretty clearly. I used Label Studio to produce a set of images and
+        corresponding panel locations, for the model to train from.
+    </div>
+
+    <div class="image-container"><img src="../images/panel_labels.png" style="width: 250px; height: auto;">
+    </div>
+    <div class="caption">Manual panel labeling.</div>
+
+
+    <div class="content">
+        I arbitrarily chose 44 such pages to annotate, which, given an average of about 10 panels per page, gives over
+        400 panels for the model to train from. The model itself was the YOLO (You Only Look Once) v11 model, trained on
+        a Tesla T4 GPU through Google Colab. Here's a look at some sample predictions from the model:
+    </div>
+
+    <div class="image-container"><img
+            src="../panel_obtainer/runs/detect/predict/05_tintin_and_the_blue_lotus_page_59.jpg"
+            style="width: 250px; height: auto;">
+        <img src="../panel_obtainer/runs/detect/predict/15_tintin_and_the_land_of_black_gold_page_43.jpg"
+            style="width: 250px; height: auto;">
+        <img src="../panel_obtainer/runs/detect/predict/21_tintin_and_the_castafiore_emerald_page_13.jpg"
+            style="width: 250px; height: auto;">
+    </div>
+    <div class="caption">Sample predictions from the panel-obtainer model.</div>
+
+
+    <div class="content">
+        As you can see, it does very well in identification. From a random sample of 100 pages, I counted that 95 were
+        marked with full accuracy, yielding a confidence interval of (0.8872, 0.9836) for all 1,325 pages. Four of the
+        errors were false positives, which is good, since that just means extra data is being recorded (rather than some
+        data being missed).
+        To actually
+        extract the panel
+        data, all I did was crop each of the rectangles from the predictions, and adjust the name slightly to create an
+        ID for each image. A sample panel from my adjustment would be:
+        "17_tintin_and_the_explorers_on_the_moon_page_27_panel_08.jpg".
+    </div>
+
+    <div class="image-container"><img
+            src="../panel_obtainer/panels/17_tintin_and_the_explorers_on_the_moon_page_27_panel_08.jpg"
+            style="width: 250px; height: auto;">
+    </div>
+    <div class="caption">The aforementioned 17_tintin_and_the_explorers_on_the_moon_page_27_panel_08.jpg.</div>
+
+
+    <div class="title">Classifying people</div>
+
+    <div class="content">
+        With the panels in place, I was ready to start classifying people. Having looked at several panels, I set a
+        couple of rules for what I could classify as a character. One, I would need to only look at a person's face (and
+        hat, if needed) either head-on or from behind, since a lot of panels have the characters looking out at
+        something in the foreground. That's to enable the model to identify characters that sometimes change outfits
+        across and within novels. Second, to not confuse the model with overly difficult images, I used my discretion to
+        only classify people that were easily identifiable without prior context and the majority of their face or head
+        in frame. For instance, the images below were each not classified: on the left, Tintin is wearing a disguise
+        that could mislead a model's training and on the right, even though it's Thomson and Thompson in the panel, a
+        majority of their faces are not within the frame.
+    </div>
+
+    <div class="image-container"><img
+            src="../person_obtainer/random_panels_100/15_tintin_and_the_land_of_black_gold_page_44_panel_03.jpg"
+            style="width: 200px; height: auto; margin-right: 20px;">
+        <img src="../person_obtainer/gold_1/15_tintin_and_the_land_of_black_gold_page_02_panel_10.jpg"
+            style="width: 200px; height: auto;">
+    </div>
+    <div class="caption">Images that I did not annotate with characters.</div>
+
+
+    <div class="content">
+        Here are some examples of images that were indeed classified, and how exactly I classified them.
+    </div>
+
+    <div class="image-container"><img src="../images/annotated_1.png" style="width: 200px; height: auto;">
+        <img src="../images/annotated_2.png" style="width: 200px; height: auto; margin-right: 20px; margin-left: 20px;">
+        <img src="../images/annotated_3.png" style="width: 200px; height: auto;">
+    </div>
+    <div class="caption">Images that I annotated with characters.</div>
+
+    <div class="content">
+        I annotated 400 such panels, which was a combination of random selection as well as me taking from the
+        beginnings of Explorers on the Moon (a book that contains all 5 main characters) and Land of Black Gold (whose
+        opening has a Thomson and Thompson sequence).
+    </div>
+
+    <div class="content">
+        With the annotations in place, the training was similar to before, with the aforementioned YOLOv11 model.
+    </div>
+
+    <div class="title">Classification results</div>
+
+    <div class="content">
+        The results of the model's predictions proved quite accurate: 84% of a sample of 100 panels were fully accurate
+        (meaning all people were labeled correctly, with no false positives or negatives) [95% conf: (0.7532, 0.9057)].
+
+        Some sample images are below to illustrate
+        some of the model's feats.
+    </div>
+
+    <div class="image-container">
+        <img src="../person_obtainer/runs/detect/predict/03_tintin_in_america_page_04_panel_08.jpg"
+            style="width: 200px; height: auto;">
+        <img src="../person_obtainer/runs/detect/predict/12_tintin_and_the_red_rackhams_page_29_panel_10.jpg"
+            style="width: 200px; height: auto;">
+        <img src="../person_obtainer/runs/detect/predict/13_tintin_and_the_seven_crystal_balls_page_35_panel_04.jpg"
+            style="width: 200px; height: auto;">
+    </div>
+
+    <div class="image-container">
+        <img src="../person_obtainer/runs/detect/predict/14_tintin_and_the_prisonres_of_sun_page_05_panel_01.jpg"
+            style="width: 200px; height: auto;">
+        <img src="../person_obtainer/runs/detect/predict/19_tintin_and_the_red_sea_shar_page_54_panel_02.jpg"
+            style="width: 200px; height: auto;">
+        <img src="../person_obtainer/runs/detect/predict/21_tintin_and_the_castafiore_emerald_page_30_panel_08.jpg"
+            style="width: 200px; height: auto;">
+    </div>
+    <div class="caption">Image predictions from the person-obtainer model.</div>
+
+
+    <div class="content">
+        It's really fascinating (and kind of scary) to see something that took about 25 hours (start to finish) have
+        results that are this powerful.
+    </div>
+
+    <div class="content">
+        However, there were plenty of faults within the model. For one, it seems Snowy was the most difficult to
+        identify, which makes sense: he's only drawn with black and white, so it's difficult to find patterns as
+        compared to other
+        characters who have color in their face/hair. Plus, he's mostly seen at a distance, so training images can be
+        low quality.
+    </div>
+
+    <div class="image-container">
+        <img src="../person_obtainer/my_model_v2/train/BoxPR_curve.png" style="width: 500px; height: auto;">
+    </div>
+    <div class="caption">Precision-Recall curve for all five classes.</div>
+
+    <div class="image-container">
+        <img src="../person_obtainer/runs/detect/predict/20_tintin_in_tibet_page_46_panel_14.jpg"
+            style="width: 200px; height: auto;">
+        <img src="../person_obtainer/runs/detect/predict/14_tintin_and_the_prisonres_of_sun_page_16_panel_04.jpg"
+            style="width: 200px; height: auto;">
+    </div>
+    <div class="caption">Incorrect Snowy class predictions.</div>
+
+    <div class="content">
+        Some of the errors for Tintin's classifications show the importance of color: his orange hair seems to be
+        something key that the model picked up on in identification. That helps when his back might be turned to the
+        "camera" but it can be confusing when there's other orangish colors in the scene.
+    </div>
+
+    <div class="image-container">
+        <img src="../person_obtainer/runs/detect/predict/17_tintin_and_the_explorers_on_the_moon_page_12_panel_08.jpg"
+            style="width: 300px; height: auto;">
+    </div>
+    <div class="caption">Incorrect Tintin class predictions.</div>
+
+    <div class="content">
+        Lastly, Thomson and Thompson proved to be a bit difficult for the model to key in on. There's probably a number
+        of reasons for that, but my guess is that they don't have particularly unique faces (a lot of characters look
+        like them) and their mustaches are very
+        thick, which can cover up important and distinguishing facial features.
+    </div>
+
+    <div class="image-container">
+        <img src="../person_obtainer/runs/detect/predict/20_tintin_in_tibet_page_04_panel_12.jpg"
+            style="width: 250px; height: auto; margin-right: 20px;">
+        <img src="../person_obtainer/runs/detect/predict/11_tintin_and_the_secret_of_the_unicorn_page_03_panel_08.jpg"
+            style="width: 250px; height: auto;">
+    </div>
+
+    <div class="content">
+        But even with these faults, the overall accuracy and the power of such a model make this whole process fruitful.
+    </div>
+
+    <div class="title">Analysis</div>
+
+    <div class="content">
+        With the classifications in place, it was relatively simple to get the predictions of the model and map them to
+        their respective images to obtain appearance numbers for every character, separated by panel, page, and novel.
+        From there, I exported the results to R and reproduced the same visuals that inspired this whole process in the
+        first place.
+    </div>
+
+    <div class="image-container">
+        <img src="../images/[final]detailed_character.png" style="width: 650px; height: auto;">
+    </div>
+
+    <div class="content">
+        You can compare this output to the original <a class="link"
+            href="https://public.tableau.com/app/profile/rincon/viz/TintinintheDataWorld/EntryPage"
+            target="_blank">Tableau dashboard</a>, and I find it to be quite accurate. Obviously,
+        the titular characters in Tintin and Snowy appear most frequently, with Thomson and Thompson making "streaky"
+        appearances across the novels, since they are mostly used as a "cutaway" gag alongside the main plot.
+    </div>
+
+    <div class="image-container">
+        <img src="../person_obtainer/runs/detect/predict/14_tintin_and_the_prisonres_of_sun_page_52_panel_14.jpg"
+            style="width: 250px; height: auto;">
+    </div>
+
+    <div class="content">
+        For both Haddock and Calculus, you can see exactly when their characters are first introduced, though there are
+        some false positives in earlier books.
+    </div>
+
+    <div class="content">
+        There were some more <a class="link" href="../images/%5Bfinal%5Dcharacter_density.png"
+            target="_blank">visuals</a> that I produced in the R code, but the above proved to be the most insightful.
+    </div>
+
+    <div class="title">Conclusion</div>
+
+    <div class="content" style="margin-bottom: 100px;">
+        Having completed what I set out to do at the beginning of this process, I can call this project a success. It's
+        certainly not the most accurate model of characters, but from the above, it does very well when tested. I view
+        this project as a starting point for future computer vision models I might create, to showcase some of the
+        benefits and faults of such deployment. Still, even if this project is shelved away for years, I'm sure it'll
+        come back to my mind as inspiration, much like the comics did in the first place.
     </div>
 </body>
+
 
 </html>

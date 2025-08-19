@@ -20,11 +20,12 @@ body{
     text-align: center;
     max-width: 55vw;
     font-size: 45px;
+    padding-bottom: 50px;
 }
 
 .author-line{
     margin: auto;
-    padding-top: 70px;
+    padding-top: 20px;
     padding-bottom: 70px;
     text-align: center;
     max-width: 55vw;
@@ -37,19 +38,39 @@ body{
     text-align: left;
     max-width: 600px;
     font-size: 23px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .image-container{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 30px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 750px) {
+    /* formatting for mobile */
+    /* makes the images vertical instead of horizontal */
+    .image-container {display: grid;}
+}
+
+.caption{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: -30px;
+    margin-bottom: 30px;
+    display: flex;
+    color: gray;
 }
 
 .link {
     color: black;
     text-decoration: underline;
-    /* text-decoration-style: double; */
     text-decoration-color: #6f208a;
     text-decoration-thickness: 3px;
     text-decoration-skip-ink: all;
