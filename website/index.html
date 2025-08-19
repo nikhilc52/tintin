@@ -77,13 +77,15 @@
     <div class="title">Getting the data</div>
 
     <div class="content">
-        I sourced all of the Tintin books from online scans, mostly from archive.org. I excluded Tintin in the Land of
-        the Soviets since it had a very <a class="link"
+        I sourced all of the Tintin books from online scans, mostly from archive.org. I excluded <i>Tintin in the Land
+            of
+            the Soviets</i> since it had a very <a class="link"
             href="https://cdn001.tintin.com/public/tintin/img/static/tintin-in-the-land-of-the-soviets/NB00_Soviets-en-p005.png"
-            target="_blank">art style</a>, Tintin in the Congo since its depictions are pretty <a class="link"
+            target="_blank">art style</a>, <i>Tintin in the Congo</i> since its depictions are pretty <a class="link"
             href="https://en.wikipedia.org/wiki/Tintin_in_the_Congo#Racism" target="_blank">racist</a>,
-        and Tintin in Alph-Art, since it was <a class="link" href="https://en.wikipedia.org/wiki/Tintin_and_Alph-Art"
-            target="_blank">unfinished</a>. To get the PDFs into a format that was compatible with computer
+        and <i>Tintin in Alph-Art</i>, since it was <a class="link"
+            href="https://en.wikipedia.org/wiki/Tintin_and_Alph-Art" target="_blank">unfinished</a>. To get the PDFs
+        into a format that was compatible with computer
         vision models, though, I had to split each of the PDFs into JPGs, which were named according to their page
         number. I did that latter part through Adobe Acrobat.
     </div>
@@ -122,8 +124,9 @@
 
     <div class="content">
         I arbitrarily chose 44 such pages to annotate, which, given an average of about 10 panels per page, gives over
-        400 panels for the model to train from. The model itself was the YOLO (You Only Look Once) v11 model, trained on
-        a Tesla T4 GPU through Google Colab. Here's a look at some sample predictions from the model:
+        400 panels for the model to train from. The model itself was the <span class="highlight">YOLO (You Only Look
+            Once) v11 model, trained on
+            a Tesla T4 GPU through Google Colab</span>. Here's a look at some sample predictions from the model:
     </div>
 
     <div class="image-container"><img
@@ -138,8 +141,10 @@
 
 
     <div class="content">
-        As you can see, it does very well in identification. From a random sample of 100 pages, I counted that 95 were
-        marked with full accuracy, yielding a confidence interval of (0.8872, 0.9836) for all 1,325 pages. Four of the
+        As you can see, it does very well in identification. From a random sample of 100 pages, I counted that <span
+            class="highlight">95 were
+            marked with full accuracy</span>, yielding a confidence interval of (0.8872, 0.9836) for all 1,325 pages.
+        Four of the
         errors were false positives, which is good, since that just means extra data is being recorded (rather than some
         data being missed).
         To actually
@@ -159,7 +164,8 @@
     <div class="title">Classifying people</div>
 
     <div class="content">
-        With the panels in place, I was ready to start classifying people. Having looked at several panels, I set a
+        With the panels in place, <span class="highlight">I was ready to start classifying people</span>. Having looked
+        at several panels, I set a
         couple of rules for what I could classify as a character. One, I would need to only look at a person's face (and
         hat, if needed) either head-on or from behind, since a lot of panels have the characters looking out at
         something in the foreground. That's to enable the model to identify characters that sometimes change outfits
@@ -191,7 +197,8 @@
 
     <div class="content">
         I annotated 400 such panels, which was a combination of random selection as well as me taking from the
-        beginnings of Explorers on the Moon (a book that contains all 5 main characters) and Land of Black Gold (whose
+        beginnings of <i>Explorers on the Moon</i> (a book that contains all 5 main characters) and <i>Land of Black
+            Gold</i> (whose
         opening has a Thomson and Thompson sequence).
     </div>
 
@@ -202,7 +209,8 @@
     <div class="title">Classification results</div>
 
     <div class="content">
-        The results of the model's predictions proved quite accurate: 84% of a sample of 100 panels were fully accurate
+        The results of the model's predictions proved quite accurate: <span class="highlight">84% of a sample of 100
+            panels were fully accurate</span>
         (meaning all people were labeled correctly, with no false positives or negatives) [95% conf: (0.7532, 0.9057)].
 
         Some sample images are below to illustrate
@@ -256,7 +264,8 @@
     <div class="caption">Incorrect Snowy class predictions.</div>
 
     <div class="content">
-        Some of the errors for Tintin's classifications show the importance of color: his orange hair seems to be
+        Some of the errors for Tintin's classifications show <span class="highlight">the importance of color</span> his
+        orange hair seems to be
         something key that the model picked up on in identification. That helps when his back might be turned to the
         "camera" but it can be confusing when there's other orangish colors in the scene.
     </div>
@@ -269,7 +278,8 @@
 
     <div class="content">
         Lastly, Thomson and Thompson proved to be a bit difficult for the model to key in on. There's probably a number
-        of reasons for that, but my guess is that they don't have particularly unique faces (a lot of characters look
+        of reasons for that, but my guess is that <span class="highlight">they don't have particularly unique
+            faces</span> (a lot of characters look
         like them) and their mustaches are very
         thick, which can cover up important and distinguishing facial features.
     </div>
@@ -280,6 +290,7 @@
         <img src="../person_obtainer/runs/detect/predict/11_tintin_and_the_secret_of_the_unicorn_page_03_panel_08.jpg"
             style="width: 250px; height: auto;">
     </div>
+    <div class="caption">Incorrect Thompson and Thomson class predictions.</div>
 
     <div class="content">
         But even with these faults, the overall accuracy and the power of such a model make this whole process fruitful.
@@ -290,18 +301,22 @@
     <div class="content">
         With the classifications in place, it was relatively simple to get the predictions of the model and map them to
         their respective images to obtain appearance numbers for every character, separated by panel, page, and novel.
-        From there, I exported the results to R and reproduced the same visuals that inspired this whole process in the
-        first place.
+        From there, I exported the results to R (and eventually Adobe Illustrator) to <span class="highlight">reproduce
+            the same visuals that
+            inspired this whole process in the
+            first place</span>.
     </div>
 
     <div class="image-container">
         <img src="../images/[final]detailed_character.png" style="width: 650px; height: auto;">
     </div>
+    <div class="caption">Chart showing character appearances across books and pages.</div>
 
     <div class="content">
         You can compare this output to the original <a class="link"
             href="https://public.tableau.com/app/profile/rincon/viz/TintinintheDataWorld/EntryPage"
-            target="_blank">Tableau dashboard</a>, and I find it to be quite accurate. Obviously,
+            target="_blank">Tableau dashboard</a>, and I find it to be <span class="highlight">quite accurate</span>.
+        Obviously,
         the titular characters in Tintin and Snowy appear most frequently, with Thomson and Thompson making "streaky"
         appearances across the novels, since they are mostly used as a "cutaway" gag alongside the main plot.
     </div>
@@ -310,6 +325,7 @@
         <img src="../person_obtainer/runs/detect/predict/14_tintin_and_the_prisonres_of_sun_page_52_panel_14.jpg"
             style="width: 250px; height: auto;">
     </div>
+    <div class="caption">A sample "cutaway" gag for Thomson and Thompson.</div>
 
     <div class="content">
         For both Haddock and Calculus, you can see exactly when their characters are first introduced, though there are
@@ -318,17 +334,18 @@
 
     <div class="content">
         There were some more <a class="link" href="../images/%5Bfinal%5Dcharacter_density.png"
-            target="_blank">visuals</a> that I produced in the R code, but the above proved to be the most insightful.
+            target="_blank">visuals</a> that I produced in the R code, but <span class="highlight">the above proved to
+            be the most insightful</span>.
     </div>
 
     <div class="title">Conclusion</div>
 
     <div class="content" style="margin-bottom: 100px;">
         Having completed what I set out to do at the beginning of this process, I can call this project a success. It's
-        certainly not the most accurate model of characters, but from the above, it does very well when tested. I view
+        certainly not the most accurate model of characters, but from the above, it does well when tested. I view
         this project as a starting point for future computer vision models I might create, to showcase some of the
         benefits and faults of such deployment. Still, even if this project is shelved away for years, I'm sure it'll
-        come back to my mind as inspiration, much like the comics did in the first place.
+        come back to my mind as inspiration, <span class="highlight">much like the comics did in the first place</span>.
     </div>
 </body>
 
